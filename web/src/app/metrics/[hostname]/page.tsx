@@ -7,7 +7,8 @@ type PageProps = {
 
 export default async function Page({ params }: PageProps) {
   const { hostname } = await params;
-  const url = `ws://${process.env.NEXT_API_URL}/metrics/${hostname}`
+  const protocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
+  const url = `${protocol}://${process.env.NEXT_API_URL}/metrics/${hostname}`;
 
   if (!hostname) {
     redirect('/');
